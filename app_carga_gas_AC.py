@@ -6,6 +6,30 @@ st.title('AR-CONDICIONADO')
 st.title('Carga Adicional de Fluido Refrigerante :material/fluid:')
 
 parametros = {
+    'AGRATTO':{
+        '9 a 12.000 BTU/h':{
+            'capacidade': '9 a 12.000 BTU/h',
+            'R-32': {'carga_por_metro':20, 'limite_fabrica': 5.0, 'limite_maximo': 15.0, 'limite_minimo': 2.0}
+        },
+        '18.000 BTU/h':{
+            'capacidade': '18.000 BTU/h',
+            'R-32': {'carga_por_metro':20, 'limite_fabrica': 5.0, 'limite_maximo':15.0, 'limite_minimo': 2.0}
+        },
+        '22.000 BTU/h':{
+            'capacidade': '22.000 BTU/h',
+            'R-32': {'carga_por_metro':20, 'limite_fabrica': 5.0, 'limite_maximo':15.0, 'limite_minimo': 2.0}
+        },
+        '24.000 BTU/h':{
+            'capacidade': '24.000 BTU/h',
+            'R-32': {'carga_por_metro':20, 'limite_fabrica': 5.0, 'limite_maximo':15.0, 'limite_minimo': 2.0}
+        },
+        '30.000 BTU/h':{
+            'capacidade': '30.000 BTU/h',
+            'R-32': {'carga_por_metro':20, 'limite_fabrica': 5.0, 'limite_maximo':15.0, 'limite_minimo': 2.0}
+        },       
+        
+    },
+    
     'DAIKIN': {
        '9 a 12.000 BTU/h': {
            'capacidade': '9 a 12.000 BTU/h',
@@ -288,6 +312,16 @@ def calcular_carga_total(metros, fabricante, capacidade, gas):
         carga_total = carga_por_metro * metros
         
         # Adicionar lógica para a quantidade de gás
+        if fabricante == 'AGRATTO':
+            if capacidade in ['9 a 12.000 BTU/h', '18.000 BTU/h', '22.000 BTU/h', '24.000 BTU/h', '30.000 BTU/h']:
+                if metros <= 5:
+                    st.info(f'Para {metros} metros, não é necessário adicionar gás.')
+                    return carga_total
+                elif metros > 5 and metros <= 15:
+                    carga_adicional = (metros - 5) * 20   
+                    carga_total += carga_adicional
+                    st.success(f"A carga total para {metros} metros com o modelo {fabricante}, capacidade {capacidade} e gás {gas} é: {carga_adicional} gramas.")
+          
         if fabricante == 'DAIKIN':
             if capacidade in ['9 a 12.000 BTU/h', '24.000 BTU/h']:
                 if metros <= 10:
